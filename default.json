@@ -1,0 +1,71 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "draftPR": true,
+  "extends": [
+    "config:recommended",
+    "customManagers:dockerfileVersions",
+    "customManagers:githubActionsVersions",
+    "schedule:monthly"
+  ],
+  "labels": ["dependencies"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)Gemfile.lock$"],
+      "matchStrings": ["BUNDLED WITH\\n[ ]+(?<currentValue>.*)(?:$|\\n)"],
+      "datasourceTemplate": "rubygems",
+      "depNameTemplate": "bundler"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchCurrentVersion": ">= 1.0.0",
+      "groupName": "all non-major dependencies",
+      "groupSlug": "all-minor-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "matchCurrentVersion": "< 1.0.0",
+      "groupName": "all 0.X.Y patch dependencies",
+      "groupSlug": "all-v0-patch",
+      "matchPackagePatterns": ["*"],
+      "matchUpdateTypes": ["patch"]
+    },
+    {
+      "matchPackageNames": ["rails"],
+      "matchPackagePatterns": ["^@rails/"],
+      "matchUpdateTypes": ["major", "minor"],
+      "commitMessageAction": "Apply",
+      "groupName": "all non-patch Rails updates"
+    },
+    {
+      "groupName": "all non-patch vite updates",
+      "matchUpdateTypes": ["major", "minor"],
+      "matchPackagePatterns": ["^vite"]
+    },
+    {
+      "groupName": "all Ruby updates",
+      "matchPackagePatterns": ["^ruby$"]
+    },
+    {
+      "groupName": "all major turbo-rails upgrades",
+      "matchUpdateTypes": ["major"],
+      "matchPackagePatterns": ["turbo-rails$"]
+    },
+    {
+      "matchManagers": ["npm"],
+      "rangeStrategy": "bump"
+    },
+    {
+      "matchManagers": ["bundler"],
+      "rangeStrategy": "update-lockfile"
+    }
+  ],
+  "schedule": ["before 8am on monday"],
+  "vulnerabilityAlerts": {
+    "labels": ["security"],
+    "schedule": "at any time"
+  },
+  "dependencyDashboard": true
+}
