@@ -11,7 +11,7 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["(^|/)Gemfile.lock$"],
+      "managerFilePatterns": ["(^|/)Gemfile.lock$"],
       "matchStrings": ["BUNDLED WITH\\n[ ]+(?<currentValue>.*)(?:$|\\n)"],
       "datasourceTemplate": "rubygems",
       "depNameTemplate": "bundler"
@@ -22,19 +22,18 @@
       "matchCurrentVersion": ">= 1.0.0",
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
-      "matchPackagePatterns": ["*"],
+      "matchPackageNames": ["*"],
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
       "matchCurrentVersion": "< 1.0.0",
       "groupName": "all 0.X.Y patch dependencies",
       "groupSlug": "all-v0-patch",
-      "matchPackagePatterns": ["*"],
+      "matchPackageNames": ["*"],
       "matchUpdateTypes": ["patch"]
     },
     {
-      "matchPackageNames": ["rails"],
-      "matchPackagePatterns": ["^@rails/"],
+      "matchPackageNames": ["rails", "/^@rails//"],
       "matchUpdateTypes": ["major", "minor"],
       "commitMessageAction": "Apply",
       "groupName": "all non-patch Rails updates"
@@ -42,16 +41,16 @@
     {
       "groupName": "all non-patch vite updates",
       "matchUpdateTypes": ["major", "minor"],
-      "matchPackagePatterns": ["^vite"]
+      "matchPackageNames": ["^vite"]
     },
     {
       "groupName": "all Ruby updates",
-      "matchPackagePatterns": ["^ruby$"]
+      "matchPackageNames": ["^ruby$"]
     },
     {
       "groupName": "all major turbo-rails upgrades",
       "matchUpdateTypes": ["major"],
-      "matchPackagePatterns": ["turbo-rails$"]
+      "matchPackageNames": ["turbo-rails$"]
     },
     {
       "matchManagers": ["npm"],
