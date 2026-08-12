@@ -61,7 +61,6 @@
       "rangeStrategy": "update-lockfile"
     }
   ],
-  "schedule": ["before 8am on monday"],
   "vulnerabilityAlerts": {
     "labels": ["security"],
     "schedule": "at any time"
